@@ -1,0 +1,51 @@
+{
+    "project": "Traffic Density and Parking Occupancy Analysis",
+    "phase": "M1-M3",
+    "dataset": "PKLot",
+    "task": "Binary parking occupancy classification",
+    "classes": [
+        "empty",
+        "occupied"
+    ],
+    "input_size": [
+        96,
+        96
+    ],
+    "random_seed": 42,
+    "batch_size": 32,
+    "normalization": "ImageNet mean and std",
+    "checkpoint_selection": "minimum validation loss",
+    "models": {
+        "cnn_from_scratch": {
+            "epochs": 5,
+            "optimizer": "Adam",
+            "learning_rate": 0.001,
+            "pretrained": false,
+            "checkpoint": "models/parking_cnn_best.pth"
+        },
+        "resnet18_frozen": {
+            "epochs": 5,
+            "optimizer": "Adam",
+            "learning_rate": 0.001,
+            "pretrained": true,
+            "trainable_layers": "final classification layer",
+            "checkpoint": "models/resnet18_frozen_best.pth"
+        },
+        "resnet18_full": {
+            "epochs": 5,
+            "optimizer": "Adam",
+            "learning_rate": 0.0001,
+            "pretrained": true,
+            "trainable_layers": "all layers",
+            "checkpoint": "models/resnet18_full_best.pth"
+        }
+    },
+    "external_evaluation": {
+        "dataset": "CNRPark+EXT",
+        "official_test_images": 31825,
+        "input_size": [
+            96,
+            96
+        ]
+    }
+}
